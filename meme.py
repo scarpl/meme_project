@@ -1,7 +1,10 @@
+"""This module generates meme."""
 import os
 import random
-
-# @TODO Import your Ingestor and MemeEngine classes
+import argparse
+from QuoteEngine.QuoteModel import QuoteModel
+from QuoteEngine import Ingestor
+from MemeEngine import MemeEngine
 
 
 def generate_meme(path=None, body=None, author=None):
@@ -40,9 +43,10 @@ def generate_meme(path=None, body=None, author=None):
 
 
 if __name__ == "__main__":
-    # @TODO Use ArgumentParser to parse the following CLI arguments
-    # path - path to an image file
-    # body - quote body to add to the image
-    # author - quote author to add to the image
-    args = None
-    print(generate_meme(args.path, args.body, args.author))
+    parser = argparse.ArgumentParser(description='Generate meme!!')
+    parser.add_argument('--body', type=str, default=None, help="text that want to show")
+    parser.add_argument('--author', type=str, default=None, help="author of the text")
+    parser.add_argument('--path', type=str, default=None, help="file path for background image you want")
+
+    args = parser.parse_args()
+    print("Meme generated in at '{}'".format(generate_meme(args.path, args.body, args.author)))
