@@ -1,4 +1,6 @@
 
+"""Module to parse data from file with extention .csv."""
+
 from typing import List
 from .IngestorInterface import IngestorInterface
 from .QuoteModel import QuoteModel
