@@ -47,7 +47,7 @@ python meme.py --body "Code is poetry" --author "Anonymous" --path ./_data/photo
 - If `--body` and `--author` are omitted, a random quote will be used.
 - If `--path` is omitted, a random image will be used.
 
-### 🌐 Run the web app
+### Run the web app
 
 ```bash
 python app.py
