@@ -6,7 +6,6 @@ from flask import Flask, render_template, abort, request
 from QuoteEngine import Ingestor
 from MemeEngine import MemeEngine
 
-# @TODO Import your Ingestor and MemeEngine classes
 
 app = Flask(__name__)
 
@@ -14,7 +13,7 @@ meme = MemeEngine('./static')
 
 
 def setup():
-    """ Load all resources """
+    """ Load all resources."""
     quote_files = ['./_data/DogQuotes/DogQuotesTXT.txt',
                    './_data/DogQuotes/DogQuotesDOCX.docx',
                    './_data/DogQuotes/DogQuotesPDF.pdf',
@@ -52,7 +51,7 @@ def meme_rand():
 
 @app.route('/create', methods=['GET'])
 def meme_form():
-""" User input for meme information """
+    """ User input for meme information """
     return render_template('meme_form.html')
 
 

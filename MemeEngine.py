@@ -1,7 +1,7 @@
 
 """This is the meme engine."""
 from Exceptions import InvalidFilePath
-from Exceptions import exception
+from Exceptions import Exception
 from PIL import Image, ImageFont, ImageDraw
 import random
 
@@ -35,7 +35,8 @@ class MemeEngine:
                 y_loc = random.randint(0, int(img.height-font_size*2))
 
                 draw.text((x_loc, y_loc), text, font=font, fill=(0, 0, 0))
-                draw.text((int(x_loc*1.2), y_loc+font_size), " - "+author, font=font)
+                draw.text((int(x_loc*1.2), y_loc+font_size),
+                          " - "+author, font=font)
                 img.save(out_path)
 
         except Exception:
