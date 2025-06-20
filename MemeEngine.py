@@ -1,44 +1,66 @@
-"""Module to generate Meme with given images, text and author."""
-from Exceptions import InvalidFilePath
-from Exceptions import exception
-from PIL import Image, ImageFont, ImageDraw
+"""Image meme builder module using Pillow."""
+
+import os
 import random
+from PIL import Image, ImageDraw, ImageFont
 
-import Exceptions
 
+class MemeCreator:
+    """Handles the generation of meme images."""
 
-class MemeEngine:
-    """Class to generate actual meme file."""
+    def __init__(self, output_dir):
+        """
+        Initialize the meme creator.
 
-    def __init__(self, path):
-        """Initiate meme engine with path where store produced meme files."""
-        self.temp_dir = path
+        Parameters:
+        - output_dir (str): Path where generated memes will be saved.
+        """
+        self.output_dir = output_dir
+        os.makedirs(self.output_dir, exist_ok=True)
 
-    def make_meme(self, img_path, text, author, width=500) -> str:
-        """Gernerate Meme with given img, text, and author."""
-        out_path = f"{self.temp_dir}/{random.randint(0, 1000000)}.png"
+    def create(self, image_path, quote_text, quote_author, max_width=500):
+        """
+        Create a meme with text and author on the given image.
 
-        if width >= 500:
-            width = 500
+        Parameters:
+        - image_path (str): Path to the input image
+        - quote_text (str): The quote body to display
+        - quote_author (str): The quote author to display
+        - max_width (int): Optional max width of the meme image
+
+        Returns:
+        - str: Path to the generated meme image
+        """
         try:
-            with Image.open(img_path) as img:
-                ratio = img.height / img.width
-                height = width * ratio
-                img = img.resize((int(width), int(height)))
-                font_size = int(img.height/20)
+            with Image.open(image_path) as img:
+                original_ratio = img.height / img.width
+                new_width = min(max_width, img.width)
+                new_height = int(new_width * original_ratio)
+                img = img.resize((new_width, new_height))
 
                 draw = ImageDraw.Draw(img)
-                font = ImageFont.truetype("./_data/arial.ttf", font_size)
 
-                x_loc = random.randint(0, int(img.width/4))
-                y_loc = random.randint(0, int(img.height-font_size*2))
+                font_path = "./_data/arial.ttf"
+                font_size = int(new_height / 20)
+                font = ImageFont.truetype(font_path, font_size)
 
-                draw.text((x_loc, y_loc), text, font=font, fill=(0, 0, 0))
-                draw.text((int(x_loc*1.2), y_loc+font_size),
-                          " - "+author, font=font)
-                img.save(out_path)
+                full_text = f'"{quote_text}"\n- {quote_author}'
 
-        except Exception:
-            raise InvalidFilePath("Invalid image path")
+                # Calculate random placement
+                x = random.randint(10, new_width // 4)
+                y = random.randint(10, new_height - int(font_size * 3))
 
-        return out_path
+                draw.text((x, y), full_text, font=font, fill="black")
+
+                filename = f"meme_{random.randint(1000, 999999)}.png"
+                output_path = os.path.join(self.output_dir, filename)
+                img.save(output_path)
+
+                return output_path
+
+        except FileNotFoundError:
+            raise ValueError(f"Image file not found: {image_path}")
+        except OSError:
+            raise ValueError(f"Cannot open or process image: {image_path}")
+        except Exception as e:
+            raise RuntimeError(f"Unexpected error during meme creation: {e}")

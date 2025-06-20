@@ -3,10 +3,10 @@ import os
 import requests
 from flask import Flask, render_template, abort, request
 from QuoteEngine import Ingestor
-from MemeEngine import MemeEngine
+from MemeEngine import MemeCreator
 
 app = Flask(__name__)
-meme = MemeEngine('./static')
+meme = MemeCreator('./static')
 
 
 def setup():
@@ -41,7 +41,7 @@ def meme_rand():
     """Generate a random meme."""
     img = random.choice(imgs)
     quote = random.choice(quotes)
-    path = meme.make_meme(img, quote.body, quote.author)
+    path = meme.create(img, quote.body, quote.author)
     return render_template('meme.html', path=path)
 
 
