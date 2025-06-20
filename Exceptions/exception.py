@@ -1,19 +1,6 @@
-"""This module to manage exceptions."""
-
-
 class InvalidFileFormat(Exception):
-    """Manage the exception in of an invalid format."""
-
-    pass
-
-
+  pass
 class InvalidTextInput(Exception):
-    """Manage the exception in of an invalid text."""
-
-    pass
-
-
+  pass
 class InvalidFilePath(Exception):
-    """Manage the exception in of an invalid filepath."""
-
-    pass
+  pass

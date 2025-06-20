@@ -1,4 +1,3 @@
-"""The main app to generate MEME."""
 import random
 import os
 import requests
@@ -6,9 +5,7 @@ from flask import Flask, render_template, abort, request
 from QuoteEngine import Ingestor
 from MemeEngine import MemeEngine
 
-
 app = Flask(__name__)
-
 meme = MemeEngine('./static')
 
 
@@ -26,7 +23,7 @@ def setup():
         quotes += Ingestor.parse(quote_file)
         print(Ingestor.parse(quote_file))
 
-    images_path = "./_data/photos/dog/"
+    images_path = "./_data/photos"
 
     imgs = []
     for file in os.listdir(images_path):
@@ -41,8 +38,7 @@ quotes, imgs = setup()
 
 @app.route('/')
 def meme_rand():
-    """ Generate a random meme """
-
+    """Generate a random meme."""
     img = random.choice(imgs)
     quote = random.choice(quotes)
     path = meme.make_meme(img, quote.body, quote.author)
@@ -51,14 +47,13 @@ def meme_rand():
 
 @app.route('/create', methods=['GET'])
 def meme_form():
-    """ User input for meme information """
+    """User input for meme information."""
     return render_template('meme_form.html')
 
 
 @app.route('/create', methods=['POST'])
 def meme_post():
-    """ Create a user defined meme """
-
+    """Create a user defined meme."""
     if not request.form["image_url"]:
         return render_template('meme_form.html')
 
@@ -68,16 +63,15 @@ def meme_post():
         tmp = f'./tmp/{random.randint(0, 100000000)}.png'
         img = open(tmp, 'wb').write(r.content)
 
-    except requests.exceptions.RequestException as e:
-        print(f"Bad URL: {e}")
-    return render_template('meme_form.html')
+    except:
+        print("Bad Image URL")
+        return render_template('meme_form.html')
 
     body = request.form["body"]
     author = request.form["author"]
     path = meme.make_meme(tmp, body, author)
 
     os.remove(tmp)
-
     return render_template('meme.html', path=path)
 
 

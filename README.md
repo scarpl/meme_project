@@ -41,7 +41,7 @@ A simple Python application that generates random or user-defined memes using im
 ### Generate a meme via command-line
 
 ```bash
-python meme.py --body "Code is poetry" --author "Anonymous" --path ./_data/photos/dog/image.jpg
+python meme.py --body "Code is poetry" --author "Anonymous" --path ./_data/photos/image.jpg
 ```
 
 - If `--body` and `--author` are omitted, a random quote will be used.
