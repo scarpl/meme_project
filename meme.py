@@ -8,12 +8,12 @@ from MemeEngine import MemeEngine
 
 
 def generate_meme(path=None, body=None, author=None):
-    """ Generate a meme given an path and a quote """
+    """Generate a meme given an path and a quote."""
     img = None
     quote = None
 
     if path is None:
-        images = "./_data/photos/dog/"
+        images = "./_data/photos"
         imgs = []
         for root, dirs, files in os.walk(images):
             imgs = [os.path.join(root, name) for name in files]
@@ -44,9 +44,14 @@ def generate_meme(path=None, body=None, author=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Generate meme!!')
-    parser.add_argument('--body', type=str, default=None, help="text that want to show")
-    parser.add_argument('--author', type=str, default=None, help="author of the text")
-    parser.add_argument('--path', type=str, default=None, help="file path for background image you want")
+    parser.add_argument('--body', type=str, default=None,
+                        help="text that want to show")
+    parser.add_argument('--author', type=str, default=None,
+                        help="author of the text")
+    parser.add_argument('--path', type=str, default=None,
+                        help="file path for background image you want")
 
     args = parser.parse_args()
-    print("Meme generated in at '{}'".format(generate_meme(args.path, args.body, args.author)))
+    print("Meme generated in at '{}'".format(generate_meme(args.path,
+                                                           args.body,
+                                                           args.author)))

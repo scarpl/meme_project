@@ -1,4 +1,4 @@
-
+"""Module to generate Meme with given images, text and author."""
 from Exceptions import InvalidFilePath
 from Exceptions import exception
 from PIL import Image, ImageFont, ImageDraw
@@ -16,7 +16,7 @@ class MemeEngine:
 
     def make_meme(self, img_path, text, author, width=500) -> str:
         """Gernerate Meme with given img, text, and author."""
-        out_path = f"{self.temp_dir}/{random.randint(0,1000000)}.png"
+        out_path = f"{self.temp_dir}/{random.randint(0, 1000000)}.png"
 
         if width >= 500:
             width = 500
@@ -34,9 +34,10 @@ class MemeEngine:
                 y_loc = random.randint(0, int(img.height-font_size*2))
 
                 draw.text((x_loc, y_loc), text, font=font, fill=(0, 0, 0))
-                draw.text((int(x_loc*1.2), y_loc+font_size), " - "+author, font=font)
+                draw.text((int(x_loc*1.2), y_loc+font_size),
+                          " - "+author, font=font)
                 img.save(out_path)
-                
+
         except Exception:
             raise InvalidFilePath("Invalid image path")
 
