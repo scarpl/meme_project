@@ -11,17 +11,25 @@ class TextImporter(IngestorInterface):
 
     @classmethod
     def parse(cls, path: str):
-        """Parse txt file and list of quote models."""
+        """
+        Read a .txt file and return a list of QuoteModel instances.
+
+        Each line must follow the format: "quote text" - author
+        """
         if not cls.can_ingest(path):
-            raise Exception('Connot Ingest Exception')
+            raise Exception(f"Cannot process file: {path}")
 
         quotes = []
 
-        with open(path, 'r') as f:
-            for line in f:
-                body = line.split("-")[0].strip().strip('"')
-                author = line.split("-")[1].strip()
-                new_quote = QuoteModel(body, author)
-                quotes.append(new_quote)
+        try:
+            with open(path, 'r', encoding='utf-8') as file:
+                for line in file:
+                    if "-" in line:
+                        parts = line.strip().split("-")
+                        body = parts[0].strip().strip('"')
+                        author = parts[1].strip()
+                        quotes.append(QuoteModel(body, author))
+        except Exception as e:
+            raise Exception(f"Error reading TXT file: {e}")
 
         return quotes

@@ -6,7 +6,11 @@ import docx
 
 
 class DocxImporter(IngestorInterface):
-    """Helper module to read Docx file."""
+    """
+    Load quotes from a .docx file.
+
+    Expects format: "quote text" - author
+    """
 
     allowed_extensions = ['docx']
 
@@ -14,13 +18,16 @@ class DocxImporter(IngestorInterface):
     def parse(cls, path: str):
         """Parse Docx file and list of quote models."""
         if not cls.can_ingest(path):
-            raise Exception('Connot Ingest Exception')
+            raise Exception(f"Cannot process file: {path}")
 
         quotes = []
 
-        doc = docx.Document(path)
+        try:
+            document = docx.Document(path)
+        except Exception as e:
+            raise Exception(f"Failed to open DOCX file: {e}")
 
-        for para in doc.paragraphs:
+        for para in document.paragraphs:
             if para.text != "":
                 parse = para.text.split('-')
                 body = parse[0].strip().strip('"')

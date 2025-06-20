@@ -14,15 +14,19 @@ class CSVImporter(IngestorInterface):
 
     @classmethod
     def parse(cls, path: str):
-        """Parse CSV file and list of quote models."""
+        """
+        Load quotes from a .csv file.
+
+        Expects columns: 'body' and 'author'.
+        """
         if not cls.can_ingest(path):
-            raise Exception('Connot Ingest Exception')
+            raise Exception(f"Cannot ingest file type: {path}")
 
         quotes = []
 
         df = pandas.read_csv(path, header=0)
 
-        for index, row in df.iterrows():
+        for i , row in df.iterrows():
             new_quote = QuoteModel(row['body'], row['author'])
             quotes.append(new_quote)
 
