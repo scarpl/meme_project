@@ -58,9 +58,11 @@ def build_meme(image_path=None, quote_text=None, quote_author=None):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Meme Generator CLI")
-    parser.add_argument('--body', type=str, help="Quote text to add to the meme")
+    parser.add_argument('--body', type=str,
+                        help="Quote text to add to the meme")
     parser.add_argument('--author', type=str, help="Author of the quote")
-    parser.add_argument('--path', type=str, help="Path to the background image")
+    parser.add_argument('--path', type=str,
+                        help="Path to the background image")
 
     args = parser.parse_args()
 
