@@ -1,2 +1,4 @@
+.gitignore
 _data/photos/
 static/
+tmp/

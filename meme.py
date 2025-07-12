@@ -3,52 +3,52 @@
 import os
 import random
 import argparse
+
 from QuoteEngine import QuoteModel
 from QuoteEngine import Ingestor
-from MemeEngine import MemeEngine
+from MemeEngine import MemeCreator
 
-
-def build_meme(image_path=None, quote_text=None, quote_author=None):
+def build_meme(path=None, body=None, author=None):
     """
     Create a meme by combining a quote and an image.
 
     Parameters:
-    - image_path (str): path to the image file
-    - quote_text (str): quote body
-    - quote_author (str): quote author
+    - path (str): path to the image file
+    - body (str): quote body
+    - author (str): quote author
 
     Returns:
     - str: path to the generated meme image
     """
     # Load image
-    if image_path:
-        image = image_path
+    if path:
+        image = path
     else:
-        image_dir = "./_data/photos"
-        image_files = [
+        images = "./_data/photos/dog"
+        imgs = [
             os.path.join(root, file)
-            for root, _, files in os.walk(image_dir)
+            for root, _, files in os.walk(images)
             for file in files if file.endswith(('.jpg', '.png'))
         ]
-        image = random.choice(image_files)
+        image = random.choice(imgs)
 
     # Load quote
-    if quote_text and quote_author:
-        quote = QuoteModel(quote_text, quote_author)
-    elif quote_text and not quote_author:
+    if body and author:
+        quote = QuoteModel(body, author)
+    elif body and not author:
         raise ValueError("Author is required if quote text is provided.")
     else:
-        quote_sources = [
+        quote_file = [
             "./_data/DogQuotes/DogQuotesTXT.txt",
             "./_data/DogQuotes/DogQuotesDOCX.docx",
             "./_data/DogQuotes/DogQuotesPDF.pdf",
             "./_data/DogQuotes/DogQuotesCSV.csv"
         ]
-        all_quotes = []
-        for file in quote_sources:
-            all_quotes.extend(QuoteLoader.load(file))
+        quotes = []
+        for f in quote_file:
+            quotes.extend(Ingestor.parse(f))
 
-        quote = random.choice(all_quotes)
+        quote = random.choice(quotes)
 
     meme_generator = MemeCreator("./tmp")
     meme_path = meme_generator.create(image, quote.body, quote.author)
