@@ -18,12 +18,12 @@ def setup():
 
     quotes = []
 
-    for quote_file in quote_files:
-        print(quote_file)
-        quotes += Ingestor.parse(quote_file)
-        print(Ingestor.parse(quote_file))
+    for i in quote_files:
+        print(i)
+        quotes += Ingestor.parse(i)
+        print(Ingestor.parse(i))
 
-    images_path = "./_data/photos"
+    images_path = "./_data/photos/dog"
 
     imgs = []
     for file in os.listdir(images_path):
