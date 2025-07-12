@@ -16,7 +16,9 @@ class Ingestor(IngestorInterface):
 
     @classmethod
     def parse(cls, path) -> List[QuoteModel]:
-        """Pasre paths(files) by appropriate ingestor."""
-        for ingestor in cls.ingestors:
-            if ingestor.can_ingest(path):
-                return ingestor.parse(path)
+        """
+        Selects the appropriate ingestor.
+        """
+        for i in cls.ingestors:
+            if i.can_ingest(path):
+                return i.parse(path)

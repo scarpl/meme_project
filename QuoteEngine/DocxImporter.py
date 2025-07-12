@@ -15,24 +15,28 @@ class DocxImporter(IngestorInterface):
     allowed_extensions = ['docx']
 
     @classmethod
-    def parse(cls, path: str):
-        """Parse Docx file and list of quote models."""
-        if not cls.can_ingest(path):
-            raise Exception(f"Cannot process file: {path}")
+    def parse(cls, file_path: str):
+        """
+        Extracts citations from file .docx file format
 
-        quotes = []
+        Paragraphs must have format:
+            "Citation Text" - Author
+        """
+        if not cls.can_ingest(file_path):
+            raise Exception(f"Cannot process file: {file_path}")
+
+        sentences = []
 
         try:
-            document = docx.Document(path)
+            document = docx.Document(file_path)
         except Exception as e:
-            raise Exception(f"Failed to open DOCX file: {e}")
+            raise Exception(f"Failed to open file: {e}")
 
-        for para in document.paragraphs:
-            if para.text != "":
-                parse = para.text.split('-')
+        for i in document.paragraphs:
+            if i.text != "":
+                parse = i.text.split('-')
                 body = parse[0].strip().strip('"')
                 author = parse[1].strip()
-                new_quote = QuoteModel(body, author)
-                quotes.append(new_quote)
+                sentences.append(QuoteModel(body, author))
 
-        return quotes
+        return sentences

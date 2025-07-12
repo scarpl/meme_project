@@ -18,12 +18,12 @@ class MemeCreator:
         self.output_dir = output_dir
         os.makedirs(self.output_dir, exist_ok=True)
 
-    def create(self, image_path, quote_text, quote_author, max_width=500):
+    def create(self, path, quote_text, quote_author, max_width=500):
         """
         Create a meme with text and author on the given image.
 
         Parameters:
-        - image_path (str): Path to the input image
+        - path (str): Path to the input image
         - quote_text (str): The quote body to display
         - quote_author (str): The quote author to display
         - max_width (int): Optional max width of the meme image
@@ -32,7 +32,7 @@ class MemeCreator:
         - str: Path to the generated meme image
         """
         try:
-            with Image.open(image_path) as img:
+            with Image.open(path) as img:
                 original_ratio = img.height / img.width
                 new_width = min(max_width, img.width)
                 new_height = int(new_width * original_ratio)
@@ -59,8 +59,8 @@ class MemeCreator:
                 return output_path
 
         except FileNotFoundError:
-            raise ValueError(f"Image file not found: {image_path}")
+            raise ValueError(f"Image file not found: {path}")
         except OSError:
-            raise ValueError(f"Cannot open or process image: {image_path}")
+            raise ValueError(f"Cannot open or process image: {path}")
         except Exception as e:
             raise RuntimeError(f"Unexpected error during meme creation: {e}")

@@ -19,17 +19,17 @@ class TextImporter(IngestorInterface):
         if not cls.can_ingest(path):
             raise Exception(f"Cannot process file: {path}")
 
-        quotes = []
+        sentences = []
 
         try:
             with open(path, 'r', encoding='utf-8') as file:
-                for line in file:
-                    if "-" in line:
-                        parts = line.strip().split("-")
+                for i in file:
+                    if "-" in i:
+                        parts = i.strip().split("-")
                         body = parts[0].strip().strip('"')
                         author = parts[1].strip()
-                        quotes.append(QuoteModel(body, author))
+                        sentences.append(QuoteModel(body, author))
         except Exception as e:
             raise Exception(f"Error reading TXT file: {e}")
 
-        return quotes
+        return sentences

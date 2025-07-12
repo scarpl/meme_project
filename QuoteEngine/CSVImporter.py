@@ -4,7 +4,8 @@
 from typing import List
 from .IngestorInterface import IngestorInterface
 from .QuoteModel import QuoteModel
-import pandas
+import pandas as pd
+import sys
 
 
 class CSVImporter(IngestorInterface):
@@ -20,14 +21,17 @@ class CSVImporter(IngestorInterface):
         Expects columns: 'body' and 'author'.
         """
         if not cls.can_ingest(path):
-            raise Exception(f"Cannot ingest file type: {path}")
+            raise Exception(f"Cannot ingest file: {path}")
 
-        quotes = []
+        sentences = []
 
-        df = pandas.read_csv(path, header=0)
+        try:
+            df = pd.read_csv(path)
+            for i, row in df.iterrows():
+                new_quote = QuoteModel(row['body'], row['author'])
+                sentences.append(new_quote)
 
-        for i, row in df.iterrows():
-            new_quote = QuoteModel(row['body'], row['author'])
-            quotes.append(new_quote)
+        except Exception as e:
+            raise IOError(f"Error reading CSV file: {e}")
 
-        return quotes
+        return sentences
