@@ -24,7 +24,5 @@ class IngestorInterface(ABC):
     @classmethod
     @abstractmethod
     def parse(cls, path: str) -> List[QuoteModel]:
-        """
-        Parse any type of file.
-        """
+        """Parse any type of file."""
         pass
