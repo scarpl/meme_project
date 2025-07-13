@@ -1,4 +1,6 @@
 """Module to create quotes."""
+
+
 class QuoteModel:
     """Represent models for Quote."""
 
