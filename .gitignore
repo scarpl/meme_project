@@ -1,6 +1,5 @@
 .gitignore
 __pycache__/
-_data/photos/
 static/
 tmp/
 oldies/
