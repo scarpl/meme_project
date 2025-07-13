@@ -3,7 +3,7 @@
 import os
 import random
 from PIL import Image, ImageDraw, ImageFont
-from QuoteEngine import Ingestor
+from QuoteEngine import Ingestor, QuoteModel
 import argparse
 
 
