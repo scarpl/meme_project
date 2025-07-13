@@ -16,9 +16,7 @@ class Ingestor(IngestorInterface):
 
     @classmethod
     def parse(cls, path) -> List[QuoteModel]:
-        """
-        Selects the appropriate ingestor.
-        """
+        """Select of the appropriate ingestor."""
         for i in cls.ingestors:
             if i.can_ingest(path):
                 return i.parse(path)
