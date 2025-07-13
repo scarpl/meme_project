@@ -17,7 +17,7 @@ class DocxImporter(IngestorInterface):
     @classmethod
     def parse(cls, file_path: str):
         """
-        Extracts citations from file .docx file format
+        Extract citations from file .docx file format.
 
         Paragraphs must have format:
             "Citation Text" - Author
