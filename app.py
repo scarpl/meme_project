@@ -69,7 +69,7 @@ def meme_post():
 
     body = request.form["body"]
     author = request.form["author"]
-    path = meme.make_meme(tmp, body, author)
+    path = meme.create(tmp, body, author)
 
     os.remove(tmp)
     return render_template('meme.html', path=path)
